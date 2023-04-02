@@ -6,7 +6,7 @@ $ ganache-cli
 
 ## remix ide setup
 
-deploy the calculator.sol on the remix ide with gannache provider 
+deploy the Counter.sol on the remix ide with gannache provider 
 download json file also 
 
 ## run project
