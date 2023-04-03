@@ -1,28 +1,37 @@
-// SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.0;
-contract ExceptionHandling {
-    uint public value;
-    address public owner;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.17;
+contract FunctionError 
+    {
 
-    constructor() {
-        owner = msg.sender;
-    }
+        address  payable public owner ;
+        constructor () {
+        owner = payable(msg.sender);
+        }
+        uint public i ;  
+        function _Require(uint _i ) public  {
+                require(msg.sender == owner,"not the owner of the contract from require"); 
+                        i = _i ;
+        } 
+        function _revert() public  view {
+            if(msg.sender != owner ) { 
 
-    function setValue(uint _value) public {
-        require(msg.sender == owner, "Only the owner can set the value");
-        value = _value;
-    }
+                revert ("not the owner of the contract from the revert");
+            }
+        }
 
-    function deposit() public payable {
-        assert(msg.value > 0 ether);
-    }
 
-    function withdraw(uint _amount) public {
-        require(_amount <= address(this).balance, "Insufficient balance");
-        payable(msg.sender).transfer(_amount);
-    }
+        error NotOwner(address payable _address, string  str); 
+        function _revertCustom() public view {
+              if(payable(msg.sender) != owner) 
+              {
+                revert NotOwner({_address: payable(msg.sender), str : "not the owner address"});
+              }
+        }
+    
+        function _assert() public payable  {
+   
+            assert(payable(msg.sender) == owner);
 
-    function throwError() public pure {
-        revert("This function always throws an error");
+        }
+
     }
-}
